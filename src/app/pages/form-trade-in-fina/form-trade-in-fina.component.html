@@ -1,0 +1,297 @@
+<div class="container">
+  <section>
+    <div class="title">
+      <h2>Form Pengajuan Trade In</h2>
+    </div>
+  </section>
+
+  <section>
+    <form [formGroup]="dataKendaraan" id="formTradeIn">
+      <ul id="progressbar">
+        <li [ngClass]="step>=1 ? 'active ' : 'inactive'">Pengajuan Trade In</li>
+        <li [ngClass]="step>=2 ? 'active' : 'inactive'">Detail Kendaraan</li>
+        <li [ngClass]="step==3 ? 'active' : 'inactive'">Detail Konsumen</li>
+      </ul>
+
+      <fieldset *ngIf="step == 1">
+        <h2>Data Kendaraan</h2>
+
+        <label class="form-label">Merk Kendaraan</label>
+        <input type="text" formControlName="merk"
+               [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.merk.errors }"
+               placeholder="Mis: Honda, Toyota, Suzuki"/>
+        <div *ngIf="dataKendaraan_step && dataKendaraan.controls.merk.errors">
+          <div *ngIf="kendaraan.merk.errors?.required">Merk kendaraan wajib diisi</div>
+        </div>
+
+        <label class="form-label">Model</label>
+        <input type="text" formControlName="model"
+               [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.model.errors }"
+               placeholder="Mis: Brio, CX-5, Innova"/>
+        <div *ngIf="dataKendaraan_step && dataKendaraan.controls.model.errors">
+          <div *ngIf="kendaraan.name.errors?.required">Model wajib diisi</div>
+        </div>
+
+        <label class="form-label">Tahun</label>
+        <input type="number" formControlName="tahun"
+               [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.tahun.errors }" placeholder="Mis: 2018"/>
+        <div *ngIf="dataKendaraan_step && dataKendaraan.controls.tahun.errors">
+          <div *ngIf="kendaraan.tahun.errors?.required">Tahun wajib diisi</div>
+        </div>
+
+        <label class="form-label">Nomor Polisi</label>
+        <input type="text" formControlName="nopol"
+               [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.nopol.errors }" placeholder="Mis: B 1234 DE"/>
+        <div *ngIf="dataKendaraan_step && dataKendaraan.controls.nopol.errors">
+          <div *ngIf="kendaraan.nopol.errors?.required">Nomor Polisi wajib diisi</div>
+        </div>
+
+        <label class="form-label">Warna</label>
+        <input type="text" formControlName="warna"
+               [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.warna.errors }" placeholder="Mis: Merah"/>
+        <div *ngIf="dataKendaraan_step && dataKendaraan.controls.warna.errors">
+          <div *ngIf="kendaraan.warna.errors?.required">Warna wajib diisi</div>
+        </div>
+
+
+        <label class="form-label">Transmisi</label>
+        <select formControlName="transmisi"
+                [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.transmisi.errors }">
+          <option value="A/T" selected>A/T</option>
+          <option value="Manual">Manual</option>
+        </select>
+        <div *ngIf="dataKendaraan_step && dataKendaraan.controls.transmisi.errors">
+          <div *ngIf="kendaraan.warna.errors?.required">Transmisi wajib diisi</div>
+        </div>
+
+        <label class="form-label">Kilometer</label>
+        <input type="text" formControlName="kilometer"
+               [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.kilometer.errors }" placeholder="Mis: 72900"/>
+        <div *ngIf="dataKendaraan_step && dataKendaraan.controls.kilometer.errors">
+          <div *ngIf="kendaraan.kilometer.errors?.required">Kilometer wajib diisi</div>
+        </div>
+
+        <label class="form-label">Deskripsi</label>
+        <input type="text" formControlName="deskripsi"
+               [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.deskripsi.errors }"
+               placeholder="Mis: Mulus, Bekas tabrak, Ac mati"/>
+        <div *ngIf="dataKendaraan_step && dataKendaraan.controls.deskripsi.errors">
+          <div *ngIf="kendaraan.deskripsi.errors?.required">Deskripsi wajib diisi</div>
+        </div>
+        <input (click)="next()" type="button" name="next" class="next action-button" value="Next"/>
+      </fieldset>
+    </form>
+    <form [formGroup]="detailKendaraan" id="formTradeIn">
+      <ul id="progressbar">
+        <li [ngClass]="step>=1 ? 'active' : 'inactive'">Pengajuan Trade In</li>
+        <li [ngClass]="step>=2 ? 'active' : 'inactive'">Detail Kendaraan</li>
+        <li [ngClass]="step==3 ? 'active' : 'inactive'">Detail Konsumen</li>
+      </ul>
+
+      <fieldset *ngIf="step == 2">
+        <h2>Upload Foto Detail Kendaraan</h2>
+        <label class="form-label">Tampak Depan</label>
+        <input type="file" formControlName="depan"
+               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.depan.errors }"/>
+        <div *ngIf="detailKendaraan_step && detailKendaraan.controls.depan.errors">
+          <div *ngIf="detail.depan.errors?.required">Silahkan upload foto tampak depan kendaraan anda</div>
+        </div>
+
+        <label class="form-label">Tampak Belakang</label>
+        <input type="file" formControlName="belakang"
+               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.belakang.errors }"/>
+        <div *ngIf="detailKendaraan_step && detailKendaraan.controls.belakang.errors">
+          <div *ngIf="detail.belakang.errors?.required">Silahkan upload foto tampak belakang kendaraan anda</div>
+        </div>
+
+        <label class="form-label">Tampak Samping Kanan</label>
+        <input type="file" formControlName="kanan"
+               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.kanan.errors }"/>
+        <div *ngIf="detailKendaraan_step && detailKendaraan.controls.kanan.errors">
+          <div *ngIf="detail.kanan.errors?.required">Silahkan upload foto tampak samping kanan kendaraan anda</div>
+        </div>
+
+        <label class="form-label">Tampak Samping Kiri</label>
+        <input type="file" formControlName="kiri"
+               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.kiri.errors }"/>
+        <div *ngIf="detailKendaraan_step && detailKendaraan.controls.kiri.errors">
+          <div *ngIf="detail.kiri.errors?.required">Silahkan upload foto tampak samping kiri kendaraan anda</div>
+        </div>
+
+        <label class="form-label">Tampak Interior</label>
+        <input type="file" formControlName="interior"
+               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.interior.errors }"/>
+        <div *ngIf="detailKendaraan_step && detailKendaraan.controls.interior.errors">
+          <div *ngIf="detail.interior.errors?.required">Silahkan upload foto tampak interior kendaraan anda</div>
+        </div>
+
+        <label class="form-label">Tampak Dashboard</label>
+        <input type="file" formControlName="dashboard"
+               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.dashboard.errors }"/>
+        <div *ngIf="detailKendaraan_step && detailKendaraan.controls.dashboard.errors">
+          <div *ngIf="detail.dashboard.errors?.required">Silahkan upload foto tampak dashboard kendaraan anda</div>
+        </div>
+
+        <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"
+               value="Previous"/>
+        <input (click)="next()" type="button" name="next" class="next action-button" value="Next"/>
+      </fieldset>
+    </form>
+    <form [formGroup]="detailContact" id="formTradeIn">
+      <fieldset *ngIf="step == 3">
+        <h2>Upload Detail Contact</h2>
+        <label class="form-label">Email</label>
+        <input type="email" formControlName="email"
+               [ngClass]="{ 'is-invalid': detailContact_step && contact.email.errors }"
+               placeholder="Mis: john@gmail.com"/>
+        <div *ngIf="detailContact_step && detailContact.controls.email.errors">
+          <div *ngIf="contact.depan.errors?.required">Silahkan masukkan email anda</div>
+        </div>
+
+        <label class="form-label">Nomor HP</label>
+        <input type="email" formControlName="nohp"
+               [ngClass]="{ 'is-invalid': detailContact_step && contact.nohp.errors }"/>
+        <div *ngIf="detailContact_step && detailContact.controls.nohp.errors">
+          <div *ngIf="contact.nohp.errors?.required">Silahkan masukkan nomor HP anda</div>
+        </div>
+
+        <label class="form-label">Provinsi</label>
+        <select formControlName="provinsi" [(ngModel)]="selectedProvinsi" (change)="onChangeProvinsi($event)">
+          <option *ngFor="let item of formProvinsi" value="{{item.id}}">{{item.nama}}</option>
+        </select>
+        <div *ngIf="detailContact_step && detailContact.controls.provinsi.errors">
+          <div *ngIf="contact.provinsi.errors?.required">Silahkan pilih provinsi anda</div>
+        </div>
+        <br>
+
+        <label class="form-label">Kota</label>
+        <select formControlName="kota" [(ngModel)]="selectedKota" (change)="onChangeKota($event)">
+          <option *ngFor="let item of formKota" value="{{item.id}}">{{item.nama}}</option>
+        </select>
+        <div *ngIf="detailContact_step && detailContact.controls.kota.errors">
+          <div *ngIf="contact.kota.errors?.required">Silahkan pilih kota anda</div>
+        </div>
+        <br>
+
+
+        <label class="form-label">Kecamatan</label>
+        <select formControlName="kecamatan" [(ngModel)]="selectedKecamatan">
+          <option *ngFor="let item of formKecamatan" value="{{item.id}}">{{item.nama}}</option>
+        </select>
+        <div *ngIf="detailContact_step && detailContact.controls.kota.errors">
+          <div *ngIf="contact.kota.errors?.required">Silahkan pilih kota anda</div>
+        </div>
+        <br>
+
+        <label class="form-label">Alamat Lengkap</label>
+        <input type="text" formControlName="fullalamat"
+               [ngClass]="{ 'is-invalid': detailContact_step && contact.fullalamat.errors }"/>
+        <div *ngIf="detailContact_step && detailContact.controls.fullalamat.errors">
+          <div *ngIf="contact.fullalamat.errors?.required">Silahkan masukkan alamat lengkap anda</div>
+        </div>
+
+        <label class="form-label">Apakah ingin melakukan Trade In</label>
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+        <label class="form-check-label" for="flexRadioDefault1">
+          Default radio
+        </label>
+        <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"
+               value="Previous"/>
+        <input (click)="submit()" type="submit" name="submit" class="submit action-button" value="Submit"/>
+      </fieldset>
+    </form>
+
+
+  </section>
+</div>
+
+
+<!--<div class="container">-->
+
+<!--  <div class="row">-->
+<!--    <div class="">-->
+<!--      <form [formGroup]="personalDetails" id="msform">-->
+<!--        &lt;!&ndash; progressbar &ndash;&gt;-->
+<!--        <ul id="progressbar">-->
+<!--          <li [ngClass]="step>=1 ? 'active ' : 'inactive'">Pengajuan Trade In</li>-->
+<!--          <li [ngClass]="step>=2 ? 'active' : 'inactive'">Detail Kendaraan</li>-->
+<!--          <li [ngClass]="step==3 ? 'active' : 'inactive'">Detail Konsumen</li>-->
+<!--        </ul>-->
+
+<!--        &lt;!&ndash; fieldsets &ndash;&gt;-->
+<!--        <fieldset *ngIf="step == 1">-->
+<!--          <h2 class="fs-title">Pengajuan Trade In</h2>-->
+<!--          <label class="form-label">Merk Kendaraan</label>-->
+<!--          <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': personal_step && personal.name.errors }"-->
+<!--                 placeholder="Full Name"/>-->
+<!--          <div *ngIf="personal_step && personalDetails.controls.name.errors">-->
+<!--            <div *ngIf="personal.name.errors?.required">Name is required</div>-->
+<!--          </div>-->
+
+<!--          <label class="form-label">Model</label>-->
+<!--          <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': personal_step && personal.name.errors }"-->
+<!--                 placeholder="Full Name"/>-->
+<!--          <div *ngIf="personal_step && personalDetails.controls.name.errors">-->
+<!--            <div *ngIf="personal.name.errors?.required">Name is required</div>-->
+<!--          </div>-->
+
+<!--          <label class="form-label">Model</label>-->
+<!--          <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': personal_step && personal.name.errors }"-->
+<!--                 placeholder="Full Name"/>-->
+<!--          <div *ngIf="personal_step && personalDetails.controls.name.errors">-->
+<!--            <div *ngIf="personal.name.errors?.required">Name is required</div>-->
+<!--          </div>-->
+<!--          <input type="text" formControlName="email" name="email" placeholder="Email"/>-->
+<!--          <div *ngIf="personal_step && personalDetails.controls.email.errors">-->
+<!--            <div *ngIf="personal.email.errors?.required">Email is required</div>-->
+<!--          </div>-->
+<!--          <input type="text" formControlName="phone" name="phone" placeholder="Phone"/>-->
+<!--          <div *ngIf="personal_step && personalDetails.controls.phone.errors">-->
+<!--            <div *ngIf="personal.phone.errors?.required">Phone is required</div>-->
+<!--          </div>-->
+<!--          <input (click)="next()" type="button" name="next" class="next action-button" value="Next"/>-->
+<!--        </fieldset>-->
+<!--      </form>-->
+<!--      <form [formGroup]="addressDetails" id="msform">-->
+<!--        <fieldset *ngIf="step == 2">-->
+<!--          <h2 class="fs-title">Address Details</h2>-->
+<!--          <input type="text" formControlName="city" placeholder="City"/>-->
+<!--          <div *ngIf="address_step && addressDetails.controls.city.errors">-->
+<!--            <div *ngIf="address.city.errors?.required">City is required</div>-->
+<!--          </div>-->
+<!--          <textarea rows="5" cols="5" formControlName="address" placeholder="address"></textarea>-->
+<!--          <div *ngIf="address_step && addressDetails.controls.address.errors">-->
+<!--            <div *ngIf="address.address.errors?.required">Address is required</div>-->
+<!--          </div>-->
+<!--          <input type="text" formControlName="pincode" placeholder="Pincode"/>-->
+<!--          <div *ngIf="address_step && addressDetails.controls.pincode.errors">-->
+<!--            <div *ngIf="address.pincode.errors?.required">Pincode is required</div>-->
+<!--          </div>-->
+<!--          <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"-->
+<!--                 value="Previous"/>-->
+<!--          <input (click)="next()" type="button" name="next" class="next action-button" value="Next"/>-->
+<!--        </fieldset>-->
+<!--      </form>-->
+<!--      <form [formGroup]="educationalDetails" id="msform">-->
+<!--        <fieldset *ngIf="step == 3">-->
+<!--          <h2 class="fs-title">Educational Details</h2>-->
+<!--          <input type="text" formControlName="highest_qualification" placeholder="Highest Qualification"/>-->
+<!--          <div *ngIf="education_step && educationalDetails.controls.highest_qualification.errors">-->
+<!--            <div *ngIf="education.highest_qualification.errors?.required">Highest qualification is required</div>-->
+<!--          </div>-->
+<!--          <input type="text" formControlName="university" placeholder="University"/>-->
+<!--          <div *ngIf="education_step && educationalDetails.controls.university.errors">-->
+<!--            <div *ngIf="education.university.errors?.required">University is required</div>-->
+<!--          </div>-->
+<!--          <input type="text" formControlName="total_marks" placeholder="Total Marks"/>-->
+<!--          <div *ngIf="education_step && educationalDetails.controls.total_marks.errors">-->
+<!--            <div *ngIf="education.total_marks.errors?.required">Total marks is required</div>-->
+<!--          </div>-->
+<!--          <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"-->
+<!--                 value="Previous"/>-->
+<!--          <input (click)="submit()" type="submit" name="submit" class="submit action-button" value="Submit"/>-->
+<!--        </fieldset>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
