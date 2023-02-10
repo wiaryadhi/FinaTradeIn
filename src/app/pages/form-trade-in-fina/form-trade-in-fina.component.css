@@ -1,69 +1,152 @@
-/*.container {*/
-/*  padding: 0px 21px;*/
-/*}*/
 
-/*form styles*/
-#formTradeIn {
-  margin-top: 30px;
-}
-#formTradeIn fieldset {
-  border-radius: 0px;
-  box-sizing: border-box;
-  /*stacking fieldsets above each other*/
-}
-/*Hide all except first fieldset*/
-#formTradeIn fieldset:not(:first-of-type) {
-  display: none;
-}
+@media (max-width: 480px) {
 
-/*inputs*/
-#formTradeIn input, #formTradeIn textarea, #formTradeIn select{
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 0px;
-  margin-bottom: 10px;
+  * {
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 21px 21px;
+  }
+
+  .title h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 21px;
+  }
+
+  h2 {
+    font-weight: bold;
+  }
+
+  #formTradeIn fieldset {
+    border-radius: 0px;
+    box-sizing: border-box;
+    /*stacking fieldsets above each other*/
+  }
+
+  /*Hide all except first fieldset*/
+  #formTradeIn fieldset:not(:first-of-type) {
+    display: none;
+  }
+
+  /*inputs*/
+  #formTradeIn input, #formTradeIn textarea, #formTradeIn select {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 10px;
   width: 100%;
-  box-sizing: border-box;
-  color: #2C3E50;
-  font-size: 13px;
-}
-#msform input:focus, #msform textarea:focus  {
-  -moz-box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-  box-shadow: none !important;
-  border: 1px solid #ee0979;
-  outline-width: 0;
-  transition: All 0.5s ease-in;
-  -webkit-transition: All 0.5s ease-in;
-  -moz-transition: All 0.5s ease-in;
-  -o-transition: All 0.5s ease-in;
-}
-/*buttons*/
-#msform .action-button {
-  width: 100px;
-  background: #ee0979;
-  font-weight: bold;
-  color: white;
-  border: 0 none;
-  border-radius: 25px;
-  cursor: pointer;
-  padding: 10px 5px;
-  margin: 10px 5px;
-}
-#msform .action-button:hover, #msform .action-button:focus {
-  box-shadow: 0 0 0 2px white, 0 0 0 3px #ee0979;
-}
-#msform .action-button-previous {
-  width: 100px;
-  background: #C5C5F1;
-  font-weight: bold;
-  color: white;
-  border: 0 none;
-  border-radius: 25px;
-  cursor: pointer;
-  padding: 10px 5px;
-  margin: 10px 5px;
-}
-#msform .action-button-previous:hover, #msform .action-button-previous:focus {
-  box-shadow: 0 0 0 2px white, 0 0 0 3px #C5C5F1;
+    box-sizing: border-box;
+    color: #2C3E50;
+    font-size: 13px;
+  }
+
+  #formTradeIn input:focus, textarea:focus, select:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #1795AB;
+    outline-width: 0;
+    transition: All 0.5s ease-in;
+    -webkit-transition: All 0.5s ease-in;
+    -moz-transition: All 0.5s ease-in;
+    -o-transition: All 0.5s ease-in;
+  }
+
+  /*buttons*/
+  #formTradeIn .action-button {
+    background: #1795AB;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 5px 5px 5px rgba(23, 149, 171, 0.41);
+  }
+
+  #formTradeIn .action-button:hover, #formTradeIn .action-button:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #1795AB;
+  }
+
+  #formTradeIn .action-button-previous {
+    width: 100px;
+    background: #FFFFFF;
+    font-weight: bold;
+    color: #1795AB;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+  }
+
+  #msform .action-button-previous:hover, #msform .action-button-previous:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #C5C5F1;
+  }
+
+  /*progressbar*/
+  #progressbar {
+    overflow: hidden;
+    /*CSS counters to number the steps*/
+    counter-reset: step;
+  }
+  #progressbar li {
+    list-style-type: none;
+    color: white;
+    text-transform: uppercase;
+    font-size: 9px;
+    width: 33.33%;
+    float: left;
+    position: relative;
+    letter-spacing: 1px;
+  }
+  #progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 24px;
+    height: 24px;
+    line-height: 26px;
+    display: block;
+    font-size: 12px;
+    color: #333;
+    background: white;
+    border-radius: 25px;
+    margin: 0 auto 10px auto;
+  }
+  /*progressbar connectors*/
+  #progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: white;
+    position: absolute;
+    left: -50%;
+    top: 9px;
+    z-index: -1; /*put it behind the numbers*/
+  }
+  #progressbar li:first-child:after {
+    /*connector not needed before the first step*/
+    content: none;
+  }
+  /*marking active/completed steps green*/
+  /*The number of the step and the connector before it = green*/
+  #progressbar li.active:before, #progressbar li.active:after {
+    background: #ee0979;
+    color: white;
+  }
+  #progressbar li.inactive:before{
+    background: burlywood;
+    color: #000;
+  }
+
+  .required{
+    color: #F55050
+  }
+
+  .form-check-input{
+    width: 10px !important;
+    padding: 7px !important;
+  }
 }
