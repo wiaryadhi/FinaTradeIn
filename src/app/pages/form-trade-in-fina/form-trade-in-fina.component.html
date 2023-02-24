@@ -5,7 +5,7 @@
     </div>
   </section>
   <section>
-    <form [formGroup]="dataKendaraan" id="formTradeIn" (ngSubmit)="submit()">
+    <form [formGroup]="dataKendaraan" id="formTradeIn" (ngSubmit)="submit02()" enctype="multipart/form-data">
       <!--      <ul id="progressbar">-->
       <!--        <li [ngClass]="step>=1 ? 'active ' : 'inactive'">Pengajuan Trade In</li>-->
       <!--        <li [ngClass]="step>=2 ? 'active' : 'inactive'">Detail Kendaraan</li>-->
@@ -14,12 +14,14 @@
 
       <fieldset *ngIf="step == 1">
         <h2>Data Kendaraan</h2>
+
         <label class="form-label">Merk Kendaraan
           <div *ngIf="dataKendaraan_step && dataKendaraan.controls.merk.errors">
             <div *ngIf="kendaraan.merk.errors?.required" class="required">*Merk kendaraan wajib diisi</div>
           </div>
         </label>
-        <select formControlName="merk" [(ngModel)]="selectedMerk">
+        <!--        <select formControlName="merk" [(ngModel)]="selectedMerk">-->
+        <select formControlName="merk" [(ngModel)]="dataKonsumen.merk">
           <option value="" selected hidden="until-found">Pilih merk mobil</option>
           <option *ngFor="let item of formMerk" value="{{item.merk}}">{{item.merk}}</option>
         </select>
@@ -30,7 +32,8 @@
             <div *ngIf="kendaraan.model.errors?.required" class="required">*Model wajib diisi</div>
           </div>
         </label>
-        <input type="text" formControlName="model" [(ngModel)]="ngModel"
+        <!--        <input type="text" formControlName="model" [(ngModel)]="ngModel"-->
+        <input type="text" formControlName="model" [(ngModel)]="dataKonsumen.model"
                [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.model.errors }"
                placeholder="Mis: Brio, CX-5, Innova"/>
 
@@ -40,7 +43,8 @@
             <div *ngIf="kendaraan.tahun.errors?.required" class="required">*Tahun wajib diisi</div>
           </div>
         </label>
-        <input type="number" formControlName="tahun" [(ngModel)]="ngTahun"
+        <!--        <input type="number" formControlName="tahun" [(ngModel)]="ngTahun"-->
+        <input type="number" formControlName="tahun" [(ngModel)]="dataKonsumen.tahun"
                [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.tahun.errors }" placeholder="Mis: 2018"/>
 
 
@@ -49,7 +53,8 @@
             <div *ngIf="kendaraan.nopol.errors?.required" class="required">*Nomor Polisi wajib diisi</div>
           </div>
         </label>
-        <input type="text" formControlName="nopol" [(ngModel)]="ngNopol"
+        <!--        <input type="text" formControlName="nopol" [(ngModel)]="ngNopol"-->
+        <input type="text" formControlName="nopol" [(ngModel)]="dataKonsumen.noPol"
                [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.nopol.errors }" placeholder="Mis: B 1234 DE"/>
 
 
@@ -58,7 +63,8 @@
             <div *ngIf="kendaraan.warna.errors?.required" class="required">*Warna wajib diisi</div>
           </div>
         </label>
-        <input type="text" formControlName="warna" [(ngModel)]="ngWarna"
+        <!--        <input type="text" formControlName="warna" [(ngModel)]="ngWarna"-->
+        <input type="text" formControlName="warna" [(ngModel)]="dataKonsumen.warna"
                [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.warna.errors }" placeholder="Mis: Merah"/>
 
 
@@ -67,7 +73,8 @@
             <div *ngIf="kendaraan.transmisi.errors?.required" class="required">*Transmisi wajib diisi</div>
           </div>
         </label>
-        <select formControlName="transmisi" [(ngModel)]="ngTransmisi"
+        <!--        <select formControlName="transmisi" [(ngModel)]="ngTransmisi"-->
+        <select formControlName="transmisi" [(ngModel)]="dataKonsumen.transmisi"
                 [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.transmisi.errors }">
           <option value="" selected hidden="until-found">Pilih jenis transmisi</option>
           <option value="A/T">A/T</option>
@@ -80,7 +87,8 @@
             <div *ngIf="kendaraan.kilometer.errors?.required" class="required">*Kilometer wajib diisi</div>
           </div>
         </label>
-        <input type="text" formControlName="kilometer" [(ngModel)]="ngKilometer"
+        <!--        <input type="text" formControlName="kilometer" [(ngModel)]="ngKilometer"-->
+        <input type="text" formControlName="kilometer" [(ngModel)]="dataKonsumen.kilometer"
                [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.kilometer.errors }" placeholder="Mis: 72900"/>
 
 
@@ -89,7 +97,8 @@
             <div *ngIf="kendaraan.datestnk.errors?.required" class="required">*Masa berlaku STNK wajib diisi</div>
           </div>
         </label>
-        <input type="date" formControlName="datestnk" [(ngModel)]="ngStnk"
+        <!--        <input type="date" formControlName="datestnk" [(ngModel)]="ngStnk"-->
+        <input type="date" formControlName="datestnk" [(ngModel)]="dataKonsumen.stnk"
                [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.datestnk.errors }"/>
 
 
@@ -98,7 +107,8 @@
             <div *ngIf="kendaraan.deskripsi.errors?.required" class="required">*Deskripsi wajib diisi</div>
           </div>
         </label>
-        <textarea formControlName="deskripsi" rows="5" [(ngModel)]="ngDeskripsi"
+        <!--        <textarea formControlName="deskripsi" rows="5" [(ngModel)]="ngDeskripsi"-->
+        <textarea formControlName="deskripsi" rows="5" [(ngModel)]="dataKonsumen.deskripsi"
                   [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.deskripsi.errors }"
                   placeholder="Mis: Mulus, Bekas tabrak, Ac mati">
         </textarea>
@@ -120,7 +130,7 @@
         </label>
         <input type="file" formControlName="depan"
                [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.depan.errors }"
-               onchange="console.log(event.target.files)"/>
+               (change)="onChangeTampakDepan($event)"/>
 
 
         <label class="form-label">Tampak Belakang
@@ -132,7 +142,8 @@
           </div>
         </label>
         <input type="file" formControlName="belakang"
-               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.belakang.errors }"/>
+               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.belakang.errors }"
+               (change)="onChangeTampakBelakang($event)"/>
 
 
         <label class="form-label">Tampak Samping Kanan
@@ -143,7 +154,8 @@
           </div>
         </label>
         <input type="file" formControlName="kanan"
-               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.kanan.errors }"/>
+               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.kanan.errors }"
+               (change)="onChangeTampakKanan($event)"/>
 
 
         <label class="form-label">Tampak Samping Kiri
@@ -155,7 +167,8 @@
           </div>
         </label>
         <input type="file" formControlName="kiri"
-               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.kiri.errors }"/>
+               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.kiri.errors }"
+               (change)="onChangeTampakKiri($event)"/>
 
 
         <label class="form-label">Tampak Interior
@@ -166,7 +179,8 @@
           </div>
         </label>
         <input type="file" formControlName="interior"
-               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.interior.errors }"/>
+               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.interior.errors }"
+               (change)="onChangeTampakInterior($event)"/>
 
 
         <label class="form-label">Tampak Dashboard
@@ -177,7 +191,17 @@
           </div>
         </label>
         <input type="file" formControlName="dashboard"
-               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.dashboard.errors }"/>
+               [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.dashboard.errors }"
+               (change)="onChangeTampakDashboard($event)"/>
+
+        <label class="form-label">Harga Jual
+          <div *ngIf="detailKendaraan_step && detailKendaraan.controls.hargakonsumen.errors">
+            <div *ngIf="detail.hargakonsumen.errors?.required" class="required">*Harga jual wajib diisi</div>
+          </div>
+        </label>
+        <input type="number" formControlName="hargakonsumen" [(ngModel)]="dataKonsumen.hargaKonsumen"
+                        [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.hargakonsumen.errors }"
+                        placeholder="Mis: 120000000"/>
 
 
         <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"
@@ -200,7 +224,7 @@
             <div *ngIf="contact.email.errors?.required" class="required">*Silahkan masukkan email anda</div>
           </div>
         </label>
-        <input type="email" formControlName="email" [(ngModel)]="ngEmail"
+        <input type="email" formControlName="email" [(ngModel)]="dataKonsumen.email"
                [ngClass]="{ 'is-invalid': detailContact_step && contact.email.errors }"
                placeholder="Mis: john@gmail.com"/>
 
@@ -210,17 +234,19 @@
             <div *ngIf="contact.nohp.errors?.required" class="required">*Silahkan masukkan nomor HP anda</div>
           </div>
         </label>
-        <input type="email" formControlName="nohp" [(ngModel)]="ngNohp"
+        <input type="email" formControlName="nohp" [(ngModel)]="dataKonsumen.nohp"
                [ngClass]="{ 'is-invalid': detailContact_step && contact.nohp.errors }"/>
 
-
+        <label class="form-label">Lokasi Kendaraan</label>
         <label class="form-label">Provinsi
           <div *ngIf="detailContact_step && detailContact.controls.provinsi.errors">
             <div *ngIf="contact.provinsi.errors?.required" class="required">*Silahkan pilih provinsi anda</div>
           </div>
         </label>
-        <select formControlName="provinsi" [(ngModel)]="selectedProvinsi" (change)="onChangeProvinsi($event)">
-          <option *ngFor="let item of formProvinsi" value="{{item.id}}">{{item.nama}}</option>
+        <!--        <select formControlName="provinsi" [(ngModel)]="selectedProvinsi" (change)="onChangeProvinsi($event)">-->
+
+        <select formControlName="provinsi" [(ngModel)]="dataKonsumen.provinsi" (change)="onChangeProvinsi($event)">
+          <option *ngFor="let item of formProvinsi" value="{{item.id}} + {{ item.nama }}">{{item.nama}}</option>
         </select>
         <br>
 
@@ -229,8 +255,9 @@
             <div *ngIf="contact.kota.errors?.required" class="required">*Silahkan pilih kota anda</div>
           </div>
         </label>
-        <select formControlName="kota" [(ngModel)]="selectedKota" (change)="onChangeKota($event)">
-          <option *ngFor="let item of formKota" value="{{item.id}}">{{item.nama}}</option>
+        <!--        <select formControlName="kota" [(ngModel)]="selectedKota" (change)="onChangeKota($event)">-->
+        <select formControlName="kota" [(ngModel)]="dataKonsumen.kota" (change)="onChangeKota($event)">
+          <option *ngFor="let item of formKota" value="{{item.id}} + {{ item.nama }}">{{item.nama}}</option>
         </select>
         <br>
 
@@ -240,8 +267,8 @@
             <div *ngIf="contact.kota.errors?.required" class="required">*Silahkan pilih kota anda</div>
           </div>
         </label>
-        <select formControlName="kecamatan" [(ngModel)]="selectedKecamatan">
-          <option *ngFor="let item of formKecamatan" value="{{item.id}}">{{item.nama}}</option>
+        <select formControlName="kecamatan" [(ngModel)]="dataKonsumen.kecamatan">
+          <option *ngFor="let item of formKecamatan" value="{{item.id}} + {{ item.nama }}">{{item.nama}}</option>
         </select>
         <br>
 
@@ -251,21 +278,21 @@
             </div>
           </div>
         </label>
-        <input type="text" formControlName="fullalamat" [(ngModel)]="ngAlamat"
+        <input type="text" formControlName="fullalamat" [(ngModel)]="dataKonsumen.alamatLengkap"
                [ngClass]="{ 'is-invalid': detailContact_step && contact.fullalamat.errors }"/>
 
 
         <label class="form-label">Apakah ingin melakukan Trade In</label><br>
         <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="No Trade"
-               formControlName="radioTrad" [(ngModel)]="ngTrade">
+               formControlName="radioTrad" [(ngModel)]="dataKonsumen.isTrade">
         <label class="form-check-label" for="flexRadioDefault1">&nbsp;Tidak</label><br>
 
         <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="New Car"
-               formControlName="radioTrad" [(ngModel)]="ngTrade">
+               formControlName="radioTrad" [(ngModel)]="dataKonsumen.isTrade">
         <label class="form-check-label" for="flexRadioDefault2">&nbsp;Trade In New Car</label><br>
 
         <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" value="Used Car"
-               formControlName="radioTrad" [(ngModel)]="ngTrade">
+               formControlName="radioTrad" [(ngModel)]="dataKonsumen.isTrade">
         <label class="form-check-label" for="flexRadioDefault3">&nbsp;Trade In Used Car</label><br>
 
         <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"

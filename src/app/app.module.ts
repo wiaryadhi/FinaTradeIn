@@ -8,11 +8,14 @@ import { FormTradeInFinaComponent } from './pages/form-trade-in-fina/form-trade-
 import {HttpClientModule} from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatRadioModule} from "@angular/material/radio";
+import { ImageUploadComponent } from './image-upload/image-upload.component';
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
     AppComponent,
-    FormTradeInFinaComponent
+    FormTradeInFinaComponent,
+    ImageUploadComponent
   ],
     imports: [
         BrowserModule,
@@ -21,7 +24,8 @@ import {MatRadioModule} from "@angular/material/radio";
         FormsModule,
         HttpClientModule,
         BrowserAnimationsModule,
-        MatRadioModule
+        MatRadioModule,
+        MatInputModule
     ],
   providers: [],
   bootstrap: [AppComponent]

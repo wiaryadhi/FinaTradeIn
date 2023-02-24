@@ -8,12 +8,12 @@ export interface IKonsumen {
   kilometer: number;
   stnk: string;
   deskripsi: string;
-  tampakDepan: string;
-  tampakBelakang: string;
-  tampakKanan: string;
-  tampakKiri: string;
-  tampakInterior: string;
-  tampakDashboard: string;
+  tampakDepan?: File;
+  tampakBelakang?: File;
+  tampakKanan?: File;
+  tampakKiri?: File;
+  tampakInterior?: File;
+  tampakDashboard?: File;
   email: string;
   nohp: string;
   provinsi: string;
@@ -21,6 +21,7 @@ export interface IKonsumen {
   kecamatan: string;
   alamatLengkap: string;
   isTrade: string;
+  hargaKonsumen: number;
 }
 
 export interface IKonsumenWrapper {

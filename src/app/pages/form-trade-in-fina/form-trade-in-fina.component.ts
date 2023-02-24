@@ -8,6 +8,12 @@ import {MerkService} from "../../services/merk.service";
 import {IMerk, IMerkWrapper} from "../../interfaces/i-merk";
 import {KonsumenService} from "../../services/konsumen.service";
 import {IKonsumen, IKonsumenWrapper} from "../../interfaces/i-konsumen";
+import {HttpClient} from "@angular/common/http";
+
+class ImageSnippet {
+  constructor(public src: string, public file: File) {
+  }
+}
 
 @Component({
   selector: 'app-form-trade-in-fina',
@@ -44,6 +50,7 @@ export class FormTradeInFinaComponent implements OnInit {
   ngNohp: string = "";
   ngAlamat: string = "";
   ngTrade: string = "";
+  ngDashboard: any;
   ngActive: boolean = false;
 
   dataKendaraan!: FormGroup;
@@ -57,6 +64,14 @@ export class FormTradeInFinaComponent implements OnInit {
 
   step = 1;
 
+  selectedFile!: ImageSnippet;
+
+  tampakDepan: File = {} as File;
+  tampakBelakang: File = {} as File;
+  tampakKiri: File = {} as File;
+  tampakKanan: File = {} as File;
+  tampakInterior: File = {} as File;
+  tampakDashboard: File = {} as File;
   dataKonsumen: IKonsumen = {
     merk: '',
     model: '',
@@ -67,19 +82,57 @@ export class FormTradeInFinaComponent implements OnInit {
     kilometer: 0,
     stnk: '',
     deskripsi: '',
-    tampakDepan: '',
-    tampakBelakang: '',
-    tampakKanan: '',
-    tampakKiri: '',
-    tampakInterior: '',
-    tampakDashboard: '',
+    // tampakDepan: undefined,
+    // tampakBelakang: undefined,
+    // tampakKanan: undefined,
+    // tampakKiri: undefined,
+    // tampakInterior: undefined,
+    // tampakDashboard: undefined,
     email: '',
     nohp: '',
     provinsi: '',
     kota: '',
     kecamatan: '',
     alamatLengkap: '',
-    isTrade: ''
+    isTrade: '',
+    hargaKonsumen: 0
+  }
+
+  onChangeTampakDepan(event: any) {
+    console.log(this.tampakDepan)
+    const tadep = event.target.files.item(0);
+    this.tampakDepan = tadep;
+    console.log(this.tampakDepan);
+  }
+
+  onChangeTampakBelakang(event: any) {
+    const tadep = event.target.files.item(0);
+    this.tampakBelakang = tadep;
+    console.log(this.tampakBelakang);
+  }
+
+  onChangeTampakKiri(event: any) {
+    const tadep = event.target.files.item(0);
+    this.tampakKiri = tadep;
+    console.log(this.tampakKiri);
+  }
+
+  onChangeTampakKanan(event: any) {
+    const tadep = event.target.files.item(0);
+    this.tampakKanan = tadep;
+    console.log(this.tampakKanan);
+  }
+
+  onChangeTampakInterior(event: any) {
+    const tadep = event.target.files.item(0);
+    this.tampakInterior = tadep;
+    console.log(this.tampakInterior);
+  }
+
+  onChangeTampakDashboard(event: any) {
+    const tadep = event.target.files.item(0);
+    this.tampakDashboard = tadep;
+    console.log(this.tampakDashboard);
   }
 
   // @Input() konsumen: IKonsumen = {} as IKonsumen;
@@ -91,9 +144,36 @@ export class FormTradeInFinaComponent implements OnInit {
               private konsumenService: KonsumenService) {
   }
 
+  processFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+
+      this.konsumenService.uploadImage(this.selectedFile.file).subscribe(
+        (res) => {
+
+        },
+        (err) => {
+
+        })
+    });
+
+    reader.readAsDataURL(file);
+  }
+
+  public onFileChanged(event: any) {
+    console.log(event);
+    this.selectedFile = event.target.files[0];
+  }
+
+
   onChangeProvinsi(value: any) {
     this.selectedProvinsi = value.target.value
-    this.daerahService.allKota(this.selectedProvinsi).subscribe(
+    var parts: string[] = this.selectedProvinsi.split('+');
+    this.daerahService.allKota(parts[0]).subscribe(
       (response: IKotaWrapper) => {
         let tempData = response.kota_kabupaten;
         this.formKota = tempData;
@@ -104,7 +184,8 @@ export class FormTradeInFinaComponent implements OnInit {
 
   onChangeKota(value: any) {
     this.selectedKota = value.target.value
-    this.daerahService.allKecamatan(this.selectedKota).subscribe(
+    var parts: string[] = this.selectedKota.split('+');
+    this.daerahService.allKecamatan(parts[0]).subscribe(
       (response: IKecamatanWrapper) => {
         let tempData = response.kecamatan;
         this.formKecamatan = tempData;
@@ -126,16 +207,17 @@ export class FormTradeInFinaComponent implements OnInit {
       deskripsi: ['', Validators.required],
       datestnk: ['', Validators.required]
     })
-
+    //
     this.detailKendaraan = this.formBuilder.group({
       depan: ['', Validators.required],
       belakang: ['', Validators.required],
       kanan: ['', Validators.required],
       kiri: ['', Validators.required],
       interior: ['', Validators.required],
-      dashboard: ['', Validators.required]
+      dashboard: ['', Validators.required],
+      hargakonsumen: ['', Validators.required]
     })
-
+    //
     this.detailContact = this.formBuilder.group({
       email: ['', Validators.required],
       nohp: ['', Validators.required],
@@ -222,6 +304,7 @@ export class FormTradeInFinaComponent implements OnInit {
         this.dataKonsumen.kecamatan = this.selectedKecamatan
         this.dataKonsumen.alamatLengkap = this.ngAlamat
         this.dataKonsumen.isTrade = this.ngTrade
+        this.dataKonsumen.tampakDashboard = this.ngDashboard
         this.konsumenService.create(this.dataKonsumen)
           .subscribe(
             (response: IKonsumen) => {
@@ -236,18 +319,39 @@ export class FormTradeInFinaComponent implements OnInit {
     }
   }
 
+  submit02() {
+    console.log(this.tampakDepan)
+    this.dataKonsumen.tampakDepan = this.tampakDepan;
+    var provinsi: string[] = this.dataKonsumen.provinsi.split('+');
+    var kabupaten: string[] = this.dataKonsumen.kecamatan.split('+');
+    var kota: string[] = this.dataKonsumen.kota.split('+');
 
-  onAllProvinsi()
-    :
-    void {
-    this.daerahService.all().subscribe(
+    this.dataKonsumen.provinsi = provinsi[1]
+    this.dataKonsumen.kecamatan = kabupaten[1]
+    this.dataKonsumen.kota = kota[1]
+    this.konsumenService.createV2(this.dataKonsumen, this.tampakDepan, this.tampakBelakang, this.tampakKiri, this.tampakKanan, this.tampakInterior, this.tampakDashboard)
+      .subscribe(
+        (response: IKonsumen) => {
+          this.onAllKonsumen()
+          alert("Data berhasil ditambahkan")
+        },
+        ((error: any) => {
+          console.log(error);
+          alert(error.message)
+        }))
+  }
+
+
+  onAllProvinsi() {
+    var parts: string[] = this.selectedProvinsi.split('+');
+    this.daerahService.all(parts[1]).subscribe(
       (response: IDaerahWrapper) => {
         let tempData = response.provinsi;
         this.formProvinsi = tempData;
       }
     )
-
   }
+
 
   onAllMerk()
     :

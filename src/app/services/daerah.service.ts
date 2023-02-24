@@ -22,14 +22,14 @@ export class DaerahService {
   ) {
   }
 
-  all(): Observable<IDaerahWrapper> {
+  all(id: string): Observable<IDaerahWrapper> {
     return this.httpCLient.get<IDaerahWrapper>(
       `${this.baseService.daerahBaseURL}${this.endpointProvince}`
     )
   }
 
 
-  allKota(id: any): Observable<IKotaWrapper> {
+  allKota(id: string): Observable<IKotaWrapper> {
     console.log(`${this.baseService.daerahBaseURL}${this.endpointKota}${id}`)
     return this.httpCLient.get<IKotaWrapper>(
       `${this.baseService.daerahBaseURL}${this.endpointKota}${id}`
