@@ -9,6 +9,8 @@ import {IMerk, IMerkWrapper} from "../../interfaces/i-merk";
 import {KonsumenService} from "../../services/konsumen.service";
 import {IKonsumen, IKonsumenWrapper} from "../../interfaces/i-konsumen";
 import {HttpClient} from "@angular/common/http";
+import Swal from 'sweetalert2';
+import {Router} from "@angular/router";
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {
@@ -33,17 +35,19 @@ export class FormTradeInFinaComponent implements OnInit {
   formKecamatan: Array<IKecamatan> = []
 
 
+  tempHarga: string = '';
+  tempKilo: string = '';
 //Variabel ngModel
   selectedProvinsi: string = "";
   selectedKota: string = "";
   selectedKecamatan: string = "";
   selectedMerk: string = "";
   ngModel: string = "";
-  ngTahun: number = 0;
+  ngTahun: string = "";
   ngNopol: string = "";
   ngWarna: string = "";
   ngTransmisi: string = "";
-  ngKilometer: number = 0;
+  ngKilometer: string = "";
   ngStnk: string = "";
   ngDeskripsi: string = "";
   ngEmail: string = "";
@@ -75,11 +79,11 @@ export class FormTradeInFinaComponent implements OnInit {
   dataKonsumen: IKonsumen = {
     merk: '',
     model: '',
-    tahun: 0,
+    tahun: '',
     noPol: '',
     warna: '',
     transmisi: '',
-    kilometer: 0,
+    kilometer: '',
     stnk: '',
     deskripsi: '',
     // tampakDepan: undefined,
@@ -95,7 +99,10 @@ export class FormTradeInFinaComponent implements OnInit {
     kecamatan: '',
     alamatLengkap: '',
     isTrade: '',
-    hargaKonsumen: 0
+    hargaKonsumen: '',
+    bukuManual: '',
+    bukuService: '',
+    kunciCadangan: '',
   }
 
   onChangeTampakDepan(event: any) {
@@ -141,7 +148,8 @@ export class FormTradeInFinaComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private daerahService: DaerahService,
               private merkService: MerkService,
-              private konsumenService: KonsumenService) {
+              private konsumenService: KonsumenService,
+              private router: Router) {
   }
 
   processFile(imageInput: any) {
@@ -205,7 +213,10 @@ export class FormTradeInFinaComponent implements OnInit {
       transmisi: ['', Validators.required],
       kilometer: ['', Validators.required],
       deskripsi: ['', Validators.required],
-      datestnk: ['', Validators.required]
+      datestnk: ['', Validators.required],
+      radioKunci: [Validators.required],
+      radioManual: [Validators.required],
+      radioService: [Validators.required],
     })
     //
     this.detailKendaraan = this.formBuilder.group({
@@ -320,27 +331,40 @@ export class FormTradeInFinaComponent implements OnInit {
   }
 
   submit02() {
-    console.log(this.tampakDepan)
-    this.dataKonsumen.tampakDepan = this.tampakDepan;
-    var provinsi: string[] = this.dataKonsumen.provinsi.split('+');
-    var kabupaten: string[] = this.dataKonsumen.kecamatan.split('+');
-    var kota: string[] = this.dataKonsumen.kota.split('+');
+    if (this.step == 3) {
+      this.detailContact_step = true;
+      if (this.detailContact.invalid) {
+        return
+      }
+      this.dataKonsumen.tampakDepan = this.tampakDepan;
+      var provinsi: string[] = this.dataKonsumen.provinsi.split('+');
+      var kabupaten: string[] = this.dataKonsumen.kecamatan.split('+');
+      var kota: string[] = this.dataKonsumen.kota.split('+');
 
-    this.dataKonsumen.provinsi = provinsi[1]
-    this.dataKonsumen.kecamatan = kabupaten[1]
-    this.dataKonsumen.kota = kota[1]
-    this.konsumenService.createV2(this.dataKonsumen, this.tampakDepan, this.tampakBelakang, this.tampakKiri, this.tampakKanan, this.tampakInterior, this.tampakDashboard)
-      .subscribe(
-        (response: IKonsumen) => {
-          this.onAllKonsumen()
-          alert("Data berhasil ditambahkan")
-        },
-        ((error: any) => {
-          console.log(error);
-          alert(error.message)
-        }))
+      this.dataKonsumen.provinsi = provinsi[1]
+      this.dataKonsumen.kecamatan = kabupaten[1]
+      this.dataKonsumen.kota = kota[1]
+      this.konsumenService.createV2(this.dataKonsumen, this.tampakDepan, this.tampakBelakang, this.tampakKiri, this.tampakKanan, this.tampakInterior, this.tampakDashboard)
+        .subscribe(
+          (response: IKonsumen) => {
+            this.onAllKonsumen()
+            Swal.fire({
+              title: 'Success!',
+              text: 'Penawaran berhasil dibuat!',
+              icon: 'success',
+              timer: 4000,
+              timerProgressBar: true,
+              showConfirmButton: false
+            });
+          },
+          ((error: any) => {
+            console.log(error);
+            alert(error.message)
+          }))
+    }
+    console.log(this.dataKonsumen)
+    this.router.navigate(['']);
   }
-
 
   onAllProvinsi() {
     var parts: string[] = this.selectedProvinsi.split('+');
@@ -363,6 +387,55 @@ export class FormTradeInFinaComponent implements OnInit {
       }
     )
   }
+
+  formatRupiah() {
+    var prefix: string = "Rp. ";
+    const number_string = this.tempHarga.replace(/[^,\d]/g, '').toString();
+    const split = number_string.split(',');
+    const sisa = split[0].length % 3;
+    let rupiah = split[0].substr(0, sisa);
+    const ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+      const separator = sisa ? '.' : '';
+      rupiah += separator + ribuan.join('.');
+    }
+
+    rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+    // return prefix === undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    this.tempHarga = prefix + rupiah;
+    this.dataKonsumen.hargaKonsumen = this.hilang(this.tempHarga).toString()
+    console.log(this.dataKonsumen.hargaKonsumen);
+  }
+
+  formatKilometer() {
+    const number_string = this.tempKilo.replace(/[^,\d]/g, '').toString();
+    const split = number_string.split(',');
+    const sisa = split[0].length % 3;
+    let rupiah = split[0].substr(0, sisa);
+    const ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+      const separator = sisa ? '.' : '';
+      rupiah += separator + ribuan.join('.');
+    }
+
+    rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+    // return prefix === undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    this.tempKilo = rupiah;
+    this.dataKonsumen.kilometer = this.hilang(this.tempKilo).toString()
+  }
+
+  hilang(harga: String) {
+    harga = harga.replace("Rp. ", "");
+    for (var i = 0; i < harga.length; i++) {
+      harga = harga.replace('.', '');
+    }
+    return harga
+
+
+  }
+
 
   // onAllKota():void {
   //   this.daerahService.allKota(this.selectedProvinsi).subscribe(

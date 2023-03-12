@@ -62,6 +62,9 @@ export class KonsumenService {
     formData.append('warna',konsumen.warna);
     formData.append('bidDate','');
     formData.append('hargaKonsumen',konsumen.hargaKonsumen.toString());
+    formData.append('bukuManual', konsumen.bukuManual)
+    formData.append('bukuService', konsumen.bukuService)
+    formData.append('kunciCadangan',konsumen.kunciCadangan)
 
 
     return this.httpClient.post<IKonsumen>(`${this.baseService.merkURL}${this.endpoint}/v2`, formData);

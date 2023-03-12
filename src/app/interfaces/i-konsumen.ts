@@ -1,11 +1,11 @@
 export interface IKonsumen {
   merk: string;
   model: string;
-  tahun: number;
+  tahun: string;
   noPol: string;
   warna: string;
   transmisi: string;
-  kilometer: number;
+  kilometer: string;
   stnk: string;
   deskripsi: string;
   tampakDepan?: File;
@@ -21,7 +21,11 @@ export interface IKonsumen {
   kecamatan: string;
   alamatLengkap: string;
   isTrade: string;
-  hargaKonsumen: number;
+  hargaKonsumen: string;
+  kunciCadangan: string
+
+  bukuService: string
+  bukuManual: string
 }
 
 export interface IKonsumenWrapper {

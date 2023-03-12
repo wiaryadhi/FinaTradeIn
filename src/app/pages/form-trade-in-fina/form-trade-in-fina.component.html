@@ -88,7 +88,7 @@
           </div>
         </label>
         <!--        <input type="text" formControlName="kilometer" [(ngModel)]="ngKilometer"-->
-        <input type="text" formControlName="kilometer" [(ngModel)]="dataKonsumen.kilometer"
+        <input type="text" formControlName="kilometer" [(ngModel)]="tempKilo" (keyup)="formatKilometer()"
                [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.kilometer.errors }" placeholder="Mis: 72900"/>
 
 
@@ -101,6 +101,32 @@
         <input type="date" formControlName="datestnk" [(ngModel)]="dataKonsumen.stnk"
                [ngClass]="{ 'is-invalid': dataKendaraan_step && kendaraan.datestnk.errors }"/>
 
+        <label class="form-label">Apakah ada Kunci Cadangan?</label><br>
+<!--        <div *ngIf="dataKendaraan_step && dataKendaraan.controls.kunciCadangan.errors">-->
+<!--          <div *ngIf="kendaraan.kunciCadangan.errors?.required" class="required">*Kunci Cadangan wajib dipilih</div>-->
+<!--        </div>-->
+        <input class="form-check-input" type="radio" name="radioKunci" id="radioKunci" value="Ada"
+               formControlName="radioKunci" [(ngModel)]="dataKonsumen.kunciCadangan">
+        <label class="form-check-label" for="flexRadioDefault2">&nbsp;Ada</label><br>
+        <input class="form-check-input" type="radio" name="radioKunci" id="radioKunci" value="Tidak"
+               formControlName="radioKunci" [(ngModel)]="dataKonsumen.kunciCadangan">
+        <label class="form-check-label" for="flexRadioDefault3">&nbsp;Tidak</label><br>
+
+        <label class="form-label">Apakah ada Buku Manual?</label><br>
+        <input class="form-check-input" type="radio" name="radioManual" id="radioManual" value="Ada"
+               formControlName="radioManual" [(ngModel)]="dataKonsumen.bukuManual">
+        <label class="form-check-label" for="flexRadioDefault2">&nbsp;Ada</label><br>
+        <input class="form-check-input" type="radio" name="radioManual" id="radioManual" value="Tidak"
+               formControlName="radioManual" [(ngModel)]="dataKonsumen.bukuManual">
+        <label class="form-check-label" for="flexRadioDefault3">&nbsp;Tidak</label><br>
+
+        <label class="form-label">Apakah ada Buku Service?</label><br>
+        <input class="form-check-input" type="radio" name="radioService" id="radioService" value="Ada"
+               formControlName="radioService" [(ngModel)]="dataKonsumen.bukuService">
+        <label class="form-check-label" for="flexRadioDefault2">&nbsp;Ada</label><br>
+        <input class="form-check-input" type="radio" name="radioService" id="radioService" value="Tidak"
+               formControlName="radioService" [(ngModel)]="dataKonsumen.bukuService">
+        <label class="form-check-label" for="flexRadioDefault3">&nbsp;Tidak</label><br><br>
 
         <label class="form-label">Deskripsi
           <div *ngIf="dataKendaraan_step && dataKendaraan.controls.deskripsi.errors">
@@ -199,9 +225,14 @@
             <div *ngIf="detail.hargakonsumen.errors?.required" class="required">*Harga jual wajib diisi</div>
           </div>
         </label>
-        <input type="number" formControlName="hargakonsumen" [(ngModel)]="dataKonsumen.hargaKonsumen"
+        <input type="text" formControlName="hargakonsumen" (keyup)="formatRupiah()" id="dengan-rupiah" [(ngModel)]="tempHarga"
                         [ngClass]="{ 'is-invalid': detailKendaraan_step && detail.hargakonsumen.errors }"
                         placeholder="Mis: 120000000"/>
+        <div>
+          <ngb-alert [dismissible]="false">
+            <strong>Peringatan!</strong> Harga yang anda masukkan adalah harga estimasi, penawaran untuk unit anda mungkin lebih tinggi atau lebih rendah
+          </ngb-alert>
+        </div>
 
 
         <input (click)="previous()" type="button" name="previous" class="previous action-button-previous"
@@ -235,9 +266,9 @@
           </div>
         </label>
         <input type="email" formControlName="nohp" [(ngModel)]="dataKonsumen.nohp"
-               [ngClass]="{ 'is-invalid': detailContact_step && contact.nohp.errors }"/>
+               [ngClass]="{ 'is-invalid': detailContact_step && contact.nohp.errors }" placeholder="Mis: 081xxxxxxxxx"/>
 
-        <label class="form-label">Lokasi Kendaraan</label>
+        <label class="form-label"><strong>Lokasi Kendaraan</strong></label><br>
         <label class="form-label">Provinsi
           <div *ngIf="detailContact_step && detailContact.controls.provinsi.errors">
             <div *ngIf="contact.provinsi.errors?.required" class="required">*Silahkan pilih provinsi anda</div>
